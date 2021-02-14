@@ -27,6 +27,7 @@ import subprocess
 import sys
 import urllib.error
 import urllib.request
+import glob
 from time import perf_counter
 
 from megalinter import config, utils
@@ -229,7 +230,8 @@ class Linter:
             if len(self.active_only_if_file_found) > 0:
                 is_found = False
                 for file_to_check in self.active_only_if_file_found:
-                    if os.path.isfile(f"{self.workspace}/{file_to_check}"):
+                    found = glob.glob(f"{self.workspace}/**/{file_to_check}")
+                    if len(found) > 0:
                         is_found = True
                         break
                 if is_found is False:
